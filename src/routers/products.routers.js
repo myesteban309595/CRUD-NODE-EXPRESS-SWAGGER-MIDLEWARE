@@ -41,7 +41,26 @@ Prouter.get('/productname', (req,res)=> {
 })
 
 //todo agregar un producto nuevo
-
+/**
+ * @swagger
+ * /productos:
+ *  post:
+ *      summary: Crea un producto nuevo en el sistema
+ *      tags: [Productos]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/product'
+ *      responses:
+ *          201:
+ *              description: el Producto se ha creado
+ *          400: 
+ *              description: Entradas inválidas
+ *          401:
+ *              description: invalidado, no es administrador
+ */
 Prouter.post('/', (req,res)=> {
     
     const {id,name,price,category} = req.body;
@@ -62,7 +81,43 @@ Prouter.post('/', (req,res)=> {
 });
 
 //todo editar un producto
-
+/**
+ * @swagger
+ * /productos/{id}:
+ *  put:
+ *      parameters:
+ *      - in: path
+ *        name: id
+ *        description: id del producto que desea editarse
+ *        required: true
+ *        schema:
+ *         type: integer
+ *      
+ * 
+ *      summary: edita un producto ya creado
+ *      tags: [Productos]              
+ *      requestBody:
+ *          description: El producto con sus cambios
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                     type: object
+ *                     properties:
+ *                         name:
+ *                             type: string
+ *                         price:
+ *                             type: number
+ *                         category:
+ *                             type: string
+ *      responses:
+ *          200:
+ *              description: Producto actualizado 
+ *          400: 
+ *              description: Entradas inválidas
+ *          401: 
+ *              description: no es administrador
+ */
 Prouter.put('/:id', (req,res) => {
 
     const {name,category} = req.body;
@@ -91,6 +146,29 @@ Prouter.put('/:id', (req,res) => {
 });
 
 //todo eliminar un producto
+/**
+ * @swagger
+ * /productos/{id}:
+ *  delete:
+ *      parameters:
+ *      - in: path
+ *        name: id
+ *        description: id del producto que desea eliminar
+ *        required: true
+ *        schema:
+ *           type: integer
+ * 
+ *      summary: eliminar un producto (admin)
+ *      tags: [Productos]  
+ *         
+ *      responses:
+ *          200:
+ *              description: Producto eliminado 
+ *          400: 
+ *              description: Entradas inválidas
+ *          401: 
+ *              description: administrador no autorizado
+ */
 
 Prouter.delete('/:id', (req,res) => {
 
@@ -103,3 +181,35 @@ Prouter.delete('/:id', (req,res) => {
 });
 
 module.exports = Prouter;  //! EXPORTAMOS LAS RUTAS
+
+/**
+ * @swagger
+ * tags:
+ *  name: 'Productos'
+ *  descripcion: Relacionado con los productos del sistema
+ * 
+ * components:
+ *  schemas:
+ *      product:
+ *          type: object
+ *          required:
+ *              -id
+ *              -name
+ *              -price
+ *              -category
+ *          properties:
+ *              id: 
+ *                  type: integer
+ *              name:
+ *                  type: string
+ *              price: 
+ *                  type: number
+ *              category: 
+ *                  type: string
+ *          example:
+ *              id: 8
+ *              name: arroz
+ *              price: 2000
+ *              category : grain
+ *
+ */

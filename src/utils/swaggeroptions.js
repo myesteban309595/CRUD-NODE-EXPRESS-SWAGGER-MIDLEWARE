@@ -26,9 +26,7 @@ const openAPI = {
             }
         },
         security: [
-            {
-                basicAuth: []
-            }
+
         ]
         
     },
